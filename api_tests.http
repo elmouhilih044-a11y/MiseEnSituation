@@ -1,0 +1,36 @@
+@base = http://localhost:3100
+@admin = COLLER_LE_TOKEN_ADMIN
+@member = COLLER_LE_TOKEN_SARA
+
+### Socle : 200
+GET {{base}}/healthz
+
+### MES 1 : 201 apres completion, 501 au depart
+POST {{base}}/api/equipments
+Authorization: Bearer {{admin}}
+Content-Type: application/json
+
+{"assetTag":" lap-099 ","name":" Portable demo ","category":"LAPTOP","dailyLateFeeCents":1000}
+
+### MES 1 : repeter la creation precedente donne 409
+POST {{base}}/api/equipments
+Authorization: Bearer {{admin}}
+Content-Type: application/json
+
+{"assetTag":"LAP-099","name":"Portable demo","category":"LAPTOP","dailyLateFeeCents":1000}
+
+### MES 1 : 403 pour un membre, une fois la MES completee
+POST {{base}}/api/equipments
+Authorization: Bearer {{member}}
+Content-Type: application/json
+
+{}
+
+### MES 2 : 200 apres completion, 501 au depart
+GET {{base}}/api/analytics/returned-loans/by-category
+Authorization: Bearer {{admin}}
+
+### MES 2 : 403, deja fourni
+GET {{base}}/api/analytics/returned-loans/by-category
+Authorization: Bearer {{member}}
+

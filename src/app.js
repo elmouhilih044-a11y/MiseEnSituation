@@ -1,0 +1,12 @@
+import express from 'express';
+import { equipmentRouter } from './routes/equipment.routes.js';
+import { analyticsRouter } from './routes/analytics.routes.js';
+import { errorHandler } from './shared/error-handler.js';
+export const app = express();
+app.disable('x-powered-by');
+app.use(express.json({ limit: '32kb' }));
+app.get('/healthz', (req, res) => res.json({ status: 'ok' }));
+app.use('/api/equipments', equipmentRouter);
+app.use('/api/analytics', analyticsRouter);
+app.use((req, res) => res.status(404).json({ error: { code: 'NOT_FOUND', message: 'Route inconnue.' } }));
+app.use(errorHandler);

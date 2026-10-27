@@ -1,0 +1,29 @@
+{
+  "name": "materialdesk-mes",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "start": "node --env-file=.env src/server.js",
+    "dev": "node --watch --env-file=.env src/server.js",
+    "seed": "node --env-file=.env scripts/seed.js",
+    "tokens": "node --env-file=.env scripts/tokens.js",
+    "test": "node --test tests/socle.test.js",
+    "test:mes1": "node --test tests/mes1.test.js",
+    "test:mes2": "node --test tests/mes2.test.js",
+    "test:acceptance": "node --test --test-concurrency=1 tests/mes1.test.js tests/mes2.test.js tests/mes3.unit.test.js",
+    "test:mes3": "node --test tests/mes3.unit.test.js"
+  },
+  "dependencies": {
+    "express": "5.1.0",
+    "mongoose": "8.19.2",
+    "jsonwebtoken": "9.0.2"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "10.2.3",
+    "supertest": "7.1.4"
+  }
+}
